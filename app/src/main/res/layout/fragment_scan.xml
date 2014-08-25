@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="15dp">
+
+    <LinearLayout
+        android:id="@+id/ll_title"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:gravity="center" />
+    </LinearLayout>
+
+    <ScrollView
+        android:id="@+id/sv_results"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/ll_title"
+        android:layout_marginTop="10dp"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+
+            <TextView
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginBottom="5dp"
+                android:gravity="left"
+                android:text="Memory"
+                android:textStyle="bold"/>
+
+            <TableLayout
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:padding="30dp"
+                android:stretchColumns="1">
+
+                <TableRow>
+
+                    <TextView
+                        android:layout_width="160dp"
+                        android:layout_height="wrap_content"
+                        android:text="Available memory" />
+
+                    <ViewAnimator android:id="@+id/va_available_memory">
+
+                        <ProgressBar
+                            style="?android:attr/progressBarStyleSmall"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+
+                        <TextView
+                            android:id="@+id/tv_available_memory_2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="15%"
+                            android:textStyle="normal" />
+                    </ViewAnimator>
+                </TableRow>
+
+                <TableRow android:layout_marginTop="15dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Apps to clean"
+                        android:textStyle="normal" />
+
+                    <ViewAnimator android:id="@+id/va_apps_to_clean">
+
+                        <ProgressBar
+                            style="?android:attr/progressBarStyleSmall"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+
+                        <TextView
+                            android:id="@+id/tv_apps_to_clean_2"
+                            android:layout_width="130dp"
+                            android:layout_height="wrap_content"
+                            android:text="6"
+                            android:textStyle="normal" />
+                    </ViewAnimator>
+                </TableRow>
+            </TableLayout>
+
+            <TextView
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginBottom="5dp"
+                android:gravity="left"
+                android:text="Storage"
+                android:textStyle="bold"/>
+
+            <TableLayout
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:padding="30dp"
+                android:stretchColumns="1">
+
+                <TableRow>
+
+                    <TextView
+                        android:layout_width="160dp"
+                        android:layout_height="wrap_content"
+                        android:text="Available storage"
+                        android:textStyle="normal" />
+
+                    <ViewAnimator android:id="@+id/va_storage">
+
+                        <ProgressBar
+                            style="?android:attr/progressBarStyleSmall"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+
+                        <TextView
+                            android:id="@+id/tv_available_storage_2"
+                            android:layout_width="100dp"
+                            android:layout_height="wrap_content"
+                            android:text="15%"
+                            android:textStyle="normal" />
+
+                    </ViewAnimator>
+                </TableRow>
+
+                <TableRow android:layout_marginTop="15dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Junk files"
+                        android:textStyle="normal" />
+
+                    <ViewAnimator android:id="@+id/va_junk">
+
+                        <ProgressBar
+                            style="?android:attr/progressBarStyleSmall"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+
+                        <TextView
+                            android:id="@+id/tv_junk_2"
+                            android:layout_width="100dp"
+                            android:layout_height="wrap_content"
+                            android:text="62 MB"
+                            android:textStyle="normal" />
+
+                    </ViewAnimator>
+                </TableRow>
+
+            </TableLayout>
+
+            <!--<TextView-->
+            <!--android:layout_width="300dp"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginTop="1dp"-->
+            <!--android:padding="10dp"-->
+            <!--android:gravity="center"-->
+            <!--android:text="STORAGE"-->
+            <!--android:textColor="@android:color/white"-->
+            <!--android:textStyle="bold"-->
+            <!--android:background="@drawable/gray_rectangle_1" />-->
+
+            <LinearLayout
+                android:id="@+id/ll_actions"
+                android:layout_width="200dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="30dp"
+                android:orientation="vertical">
+
+                <Button
+                    android:id="@+id/btn_stop"
+                    android:visibility="gone"
+                    android:layout_height="match_parent"
+                    android:layout_width="match_parent"
+                    android:gravity="center"
+                    android:text="STOP TEST" />
+
+                <Button
+                    android:id="@+id/btn_clean"
+                    android:visibility="visible"
+                    android:layout_height="match_parent"
+                    android:layout_width="match_parent"
+                    android:gravity="center"
+                    android:text="CLEAN &amp; FIX"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+</RelativeLayout>
