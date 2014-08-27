@@ -4,6 +4,11 @@ import android.os.Build;
 import android.os.Environment;
 import android.os.StatFs;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public class ScanUtils {
     @SuppressWarnings("deprecation")
     public static double getAvailableStorage() {
@@ -32,4 +37,29 @@ public class ScanUtils {
 
         return totalSize;
     }
+
+    /**
+     * @param directories
+     * @param restrictedPackages
+     * @return List of directories which doesnt contains any of restrictedPackages in name
+     */
+    public static List<File> removeRestrictedPackages(List<File> directories,
+                                                      final List<String> restrictedPackages) {
+        if (restrictedPackages.isEmpty())
+            return directories;
+
+        List<File> result = new ArrayList<File>();
+        for (File directory : directories) {
+            if (!restrictedPackages.contains(
+                    PathUtils.getBottomLevelFolder(directory.getAbsolutePath())))
+                result.add(directory);
+        }
+        return result;
+    }
+
+    public static List<File> removeRestrictedPackages(File[] directories,
+                                                      final List<String> restrictedPackages) {
+        return removeRestrictedPackages(Arrays.asList(directories), restrictedPackages);
+    }
+
 }

@@ -17,10 +17,11 @@ import java.util.List;
 import java.util.concurrent.Semaphore;
 
 import co.qualityc.cleaner.PackageInfo;
+import co.qualityc.cleaner.scan.utils.ScanUtils;
 
 public class PackagesScan implements Runnable {
-    private static final String TAG = PackagesScan.class.getName();
-    private static final String CACHE_DIR = "cache";
+    protected static final String TAG = PackagesScan.class.getName();
+    protected static final String CACHE_DIR = "cache";
 
     public interface OnProgressListener {
         void onPackageScanStarted();
@@ -28,13 +29,27 @@ public class PackagesScan implements Runnable {
         void onPackageScanFinished(List<PackageInfo> packageInfoList, long totalInternalCacheSize);
     }
 
-    private final OnProgressListener listener;
-    private final PackageManager packageManager;
+    protected final OnProgressListener listener;
+    protected final PackageManager packageManager;
 
+    private List<String> restrictedPackages;
 
     public PackagesScan(PackageManager packageManager, OnProgressListener listener) {
         this.packageManager = packageManager;
         this.listener = listener;
+        this.restrictedPackages = new ArrayList<String>();
+    }
+
+    /**
+     * @param packageManager
+     * @param listener
+     * @param restrictedPackages - packages from that list wont be counted into result
+     */
+    public PackagesScan(PackageManager packageManager, OnProgressListener listener,
+                        List<String> restrictedPackages) {
+        this.packageManager = packageManager;
+        this.listener = listener;
+        this.restrictedPackages = restrictedPackages;
     }
 
     @Override
@@ -45,7 +60,8 @@ public class PackagesScan implements Runnable {
 
         if (isExternalStorageAvailable()) {
 
-            File[] packageFiles = getPackagesDir().listFiles();
+            List<File> packageFiles = ScanUtils.removeRestrictedPackages(getPackagesDir().listFiles(),
+                    restrictedPackages);
             if (packageFiles != null) {
                 for (File packageFile : packageFiles) {
                     if (packageFile.isDirectory()) {
