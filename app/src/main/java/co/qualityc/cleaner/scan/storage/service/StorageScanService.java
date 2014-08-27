@@ -2,13 +2,20 @@ package co.qualityc.cleaner.scan.storage.service;
 
 import android.content.Intent;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
 import java.io.File;
+import java.io.IOException;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
 import co.qualityc.cleaner.PackageInfo;
 import co.qualityc.cleaner.SCIntent;
 import co.qualityc.cleaner.StorageItem;
+import co.qualityc.cleaner.net.RequestManager;
+import co.qualityc.cleaner.net.requests.GetRestrictedPackagesRequest;
 import co.qualityc.cleaner.scan.StorageScanResult;
 import co.qualityc.cleaner.scan.packages.task.PackagesScan;
 import co.qualityc.cleaner.scan.service.ScanService;
@@ -35,8 +42,23 @@ public class StorageScanService extends ScanService
     @Override
     protected void onHandleIntent(Intent intent) {
         super.onHandleIntent(intent);
+        List<String> restrictedPackages = null;
+        try {
+            restrictedPackages = getRestrictedPackages();
+        } catch (IOException e) {
+            e.printStackTrace();
+            restrictedPackages = new ArrayList<String>();   // if cant get list use empty list
+        }
+        new PackagesScan(getPackageManager(), this, restrictedPackages).run();
+    }
 
-        new PackagesScan(getPackageManager(), this).run();
+    private List<String> getRestrictedPackages() throws IOException,
+            com.google.gson.JsonSyntaxException {
+        RequestManager requestManager = new RequestManager();
+        GetRestrictedPackagesRequest request = new GetRestrictedPackagesRequest.Builder().build();
+        String response = requestManager.executeGetRequest(request);
+        Type listType = new TypeToken<List<String>>() {}.getType();
+        return new Gson().fromJson(response, listType);
     }
 
     @Override
